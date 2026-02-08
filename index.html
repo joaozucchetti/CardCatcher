@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -1897,7 +1897,8 @@
             }
 
             function spawnCard() {
-                const cardW = canvas.width * CARD_SIZE_RATIO;
+                const _isP = canvas.height > canvas.width;
+                const cardW = canvas.width * (_isP ? 0.22 : CARD_SIZE_RATIO);
                 const cardH = cardW * 1.2;
                 const x = Math.random() * (canvas.width - cardW);
                 const isBomb = Math.random() < BOMB_CHANCE;
@@ -1944,11 +1945,10 @@
                 basketVelocityX *= damping;
                 basketX += basketVelocityX;
 
-                const basketW = Math.min(canvas.width * BASKET_WIDTH_RATIO, BASKET_MAX_PX);
-                const basketH = basketW * 0.55;
-                const basketY = canvas.height - basketH - 25;
-
                 const isPortrait = canvas.height > canvas.width;
+                const basketW = Math.min(canvas.width * (isPortrait ? 0.60 : BASKET_WIDTH_RATIO), isPortrait ? 540 : BASKET_MAX_PX);
+                const basketH = basketW * 0.55;
+                const basketY = canvas.height - basketH - (isPortrait ? 60 : 25);
                 const rotationScale = isPortrait ? 0.02 : 0.012;
                 const maxTilt = isPortrait ? 0.06 : 0.1;
                 const targetRotation = -basketVelocityX * rotationScale;
@@ -2057,9 +2057,10 @@
             function draw() {
                 drawBackground();
 
-                const basketW = Math.min(canvas.width * BASKET_WIDTH_RATIO, BASKET_MAX_PX);
+                const _pD = canvas.height > canvas.width;
+                const basketW = Math.min(canvas.width * (_pD ? 0.60 : BASKET_WIDTH_RATIO), _pD ? 540 : BASKET_MAX_PX);
                 const basketH = basketW * 0.55;
-                const basketY = canvas.height - basketH - 25;
+                const basketY = canvas.height - basketH - (_pD ? 60 : 25);
 
                 cards.forEach(c => {
                     if (c.isBomb) {
